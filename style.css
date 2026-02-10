@@ -2,5 +2,40 @@
     margin: 0;
     padding: 0;
     border: none;
+    box-sizing: border-box;
     text-decoration: none;
+}
+
+#game-container{
+    display:flex;
+    height:100vh;
+    align-items: stretch;
+}
+
+#game-container div {
+    display: flex;
+    width: 33.333%;
+}
+
+
+@keyframes jump {
+    0% {left:0px; top:0px;}
+    30%{left:0px; top:-20px;}
+    100%{left:0px; top:0px;}
+}
+
+.animated {
+    animation-name: jump;
+    animation-duration: 0.2s;
+}
+
+#click-button{
+    margin:auto;
+    position:relative;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    background-color: red;
+    border: 1px solid red;
+    border-radius: 4px;
 }
