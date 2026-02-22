@@ -1,65 +1,120 @@
 * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    box-sizing: border-box;
-    text-decoration: none;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
 }
 
-#game-container{
-    display:flex;
-    height:100vh;
-    align-items: stretch;
+h1 {
+  font-family: serif;
+  color: white;
 }
 
-
-#shop-window{
-    flex-direction: column;
-    width: 40%;
-    background-color: lightgray;
-    border: 1px solid black;
-    border-radius: 4px;
+p {
+  font-family: monospace;
+  color: white;
+}
+body {
+  background: url("assets/images/ClickerBackground.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-#upgrades{
-    width: 60%;
-    background-color: lightblue;
-    border: 1px solid black;
-    border-radius: 4px;
-    padding: 10px;
+.game-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
 }
 
-#shop-window > *{
-    width:100%;
+.game-container > div {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border: 1px solid black;
+  height: 100vh;
+  padding: 10px;
 }
 
-#click-area{
+.game-container > div h1 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.click-area {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#click-button {
+  margin: auto;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1/1;
+
+  background-image: url("assets/images/Sprite.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.upgrades {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.upgrade {
+  border: 1px solid white;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.upgrade-text {
+  margin-right: 15px;
+}
+
+.buy-button {
+  background: white;
+  color: black;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: large;
+}
+
+.rewards-area {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.achievements {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 65vh;
+    flex-wrap: wrap;
 }
-
 
 @keyframes jump {
-    0% {left:0px; top:0px;}
-    30%{left:0px; top:-20px;}
-    100%{left:0px; top:0px;}
+  0% {
+    left: 0px;
+    top: 0px;
+  }
+  30% {
+    left: 0px;
+    top: -20px;
+  }
+  100% {
+    left: 0px;
+    top: 0px;
+  }
 }
 
 .animated {
-    animation-name: jump;
-    animation-duration: 0.2s;
-}
-
-#click-button{
-    margin:auto;
-    position:relative;
-    align-items: center;
-    width: 50%;
-    aspect-ratio: 1/1;
-    background-color: red;
-    border: 1px solid red;
-    border-radius: 4px;
+  animation-name: jump;
+  animation-duration: 0.2s;
 }

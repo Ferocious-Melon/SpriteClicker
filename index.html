@@ -1,24 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
     <script type="module" src="scripts/game.js"></script>
     <title>Clicker Game</title>
-</head>
-<body>
-    <div id="game-container">
-        <div id="shop-window">
-            <div id="click-area">
-                <div id="click-button"></div>
-            </div>
-            <div id="achievements"></div>
-        </div>
-        <div id="upgrades">
-            <h1 id="balance">Balance: <span id="bal">N/A</span></h1>
-            <h1>Upgrades</h1>
-        </div>
+  </head>
+
+  <body>
+    <div class="game-container">
+      <div class="click-area">
+        <h1>Soot Sprites Clicker</h1>
+        <p id="balance"><span id="bal"> 0 </span> Sprites Collected </p>
+        <p">CPS: <span id="cps">0</span></p>
+        <div id="click-button"></div>
+      </div>
+
+      <div class="upgrades">
+        <h1>Upgrades</h1>
+        <div id="upgrades-container"></div>
+      </div>
+
+      <div class="scoreboard">
+        <h1>Scoreboard</h1>
+      </div>
+      <div class="rewards-area">
+        <h1>Rewards</h1>
+        <div class="achievements"></div>
+      </div>
     </div>
-</body>
+  </body>
 </html>
