@@ -1,12 +1,13 @@
 import gameState from "./gameState.js";
 
 class upgrade {
-    constructor(basePrice, pmult, cps) {
-        this.basePrice = basePrice; //Base price of item
-        this.pmult = pmult;         //Multiplier per upgrade
+    constructor() {
         this.owned = 0;             //amount of upgrade owned
-        this.cps = cps;
+        this.cps;
+        this.basePrice; //Base price of item
+        this.pmult;         //Multiplier per upgrade
         this.name;
+        this.imageSrc;
     }
 
     get price() {
@@ -61,20 +62,42 @@ class upgrade {
 
         return container;
     }
+
+    toCanvas() {
+
+        const canvas = document.createElement("canvas");
+        canvas.width =  document.getElementById("scoreboard").offsetWidth;
+        canvas.height = 200;
+        canvas.classList.add("upgrade-canvas");
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.fillStyle = "red";
+        ctx.fillRect(50, 100,100,100);
+
+        return canvas;
+
+    }
 }
 
 
 //Basic upgrade
 export class tapper extends upgrade {
     constructor() {
-        super(10,1.1,1);
+        this.basePrice = 10;
+        this.pmult = 1.1;
+        this.cps = 1;
         this.name = "Helper";
+        this.imageSrc = "assets/images/totoro.png";
     }
 }
 
+//Slightly fancier upgrade oooooo
 export class worker extends upgrade {
     constructor() {
-        super(100,1.1,10);
+        this.basePrice= 100;
+        this.pmult = 1.3;
+        this.cps = 10;
         this.name = "Chef";
     }
 }
@@ -92,12 +115,24 @@ function updateCPS (){
 const upgrades = [new tapper(), new worker()];
 
 export function upgradesToHTML() {
-
+    //Create a div to store all the elements
     const container = document.createElement("div");
     container.id = "upgrade-list";
 
+    //Iterate through all upgrades and append their html element
     for (let u of upgrades){
         container.appendChild(u.toHTML());
+    }
+
+    return container;
+}
+
+export function upgradesToCanvas() {
+    const container = document.createElement("div");
+    container.id = "upgrade-canvases";
+
+    for (let u of upgrades){
+        container.appendChild(u.toCanvas());
     }
 
     return container;

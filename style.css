@@ -66,6 +66,14 @@ body {
   background-position: center;
 }
 
+#click-val {
+    opacity: 0;
+    user-select: none;
+    cursor: default;
+    position: fixed;
+    font-size: 20px;
+}
+
 .upgrades {
   background: rgba(0, 0, 0, 0.3);
 }
@@ -80,6 +88,10 @@ body {
 
 .upgrade-text {
   margin-right: 15px;
+}
+
+.upgrade-canvas {
+  background-color: white;
 }
 
 .buy-button {
@@ -99,6 +111,12 @@ body {
     flex-wrap: wrap;
 }
 
+.banner {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    text-align: center;
+}
+
 @keyframes jump {
   0% {
     left: 0px;
@@ -114,7 +132,22 @@ body {
   }
 }
 
+@keyframes fade{
+    0%{
+        opacity: 100%;
+    }
+    100% {
+        opacity: 0%
+    }
+}
+
 .animated {
   animation-name: jump;
   animation-duration: 0.2s;
+}
+
+.fading {
+    display: block;
+    animation-name: fade;
+    animation-duration: 0.5s;
 }
