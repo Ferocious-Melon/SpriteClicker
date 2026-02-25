@@ -75,6 +75,19 @@ class upgrade {
         ctx.fillStyle = "red";
         ctx.fillRect(50, 100,100,100);
 
+        if (this.imageSrc) {
+            const img = new Image();
+            img.src = this.imageSrc;
+
+            const aspectRatio = img.width/img.height;
+            const newWidth = 70;
+            const newHeight = newWidth*(1/aspectRatio);
+
+            img.addEventListener("load", () => {
+                ctx.drawImage(img,0,0, newWidth, newHeight);
+            })
+        }
+
         return canvas;
 
     }
@@ -84,6 +97,7 @@ class upgrade {
 //Basic upgrade
 export class tapper extends upgrade {
     constructor() {
+        super();
         this.basePrice = 10;
         this.pmult = 1.1;
         this.cps = 1;
@@ -95,6 +109,7 @@ export class tapper extends upgrade {
 //Slightly fancier upgrade oooooo
 export class worker extends upgrade {
     constructor() {
+        super();
         this.basePrice= 100;
         this.pmult = 1.3;
         this.cps = 10;
