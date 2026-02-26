@@ -8,6 +8,7 @@ window.addEventListener("load", () => {
   const CPS_TIME_INTERVAL = 10; //Interval clicks per second are added to the balance
 
   const balElement = document.getElementById("bal");          //element storing text balance
+  const clickCount = document.getElementById("click"); //element storing click amount
   const cpsElement = document.getElementById("cps");          //element storing cps as text
   const clicker = document.getElementById("click-button");    //element with le button in it
   const upgradesElement = document.getElementById("upgrades-container"); //element which will store the upgrades for purchase
@@ -42,6 +43,11 @@ window.addEventListener("load", () => {
   //add a listener to update the balance element whenever it changes
   gameState.addBalanceListener((newbal) => {
     balElement.textContent = Math.floor(newbal);
+  });
+
+  //add a listener to update the click element whenever it changes
+  gameState.addClickListener((clickCount) => {
+    click.textContent = clickCount;
   });
 
   //add a listener to update total cps element whenever it changes

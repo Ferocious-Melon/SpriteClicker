@@ -107,15 +107,20 @@ body {
   background: rgba(0, 0, 0, 0.3);
 }
 
-.achievements {
-  display: flex;
-  flex-wrap: wrap;
-}
-
 .banner {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   text-align: center;
+}
+
+.achievements {
+  display: block;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.achievement-img {
+  width: 50px;
 }
 
 #rewards-banner{
@@ -140,6 +145,15 @@ body {
 #rewards-banner.hidden{
   opacity: 0;
   pointer-events: none;
+}
+
+.achievement {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  text-align: center;
 }
 
 @keyframes jump {
