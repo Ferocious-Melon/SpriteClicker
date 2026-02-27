@@ -79,7 +79,7 @@ class upgrade {
         canvas.height = 200;
         canvas.classList.add("upgrade-canvas");
 
-        this.ctx = this.canvas.getContext("2d");
+        const ctx = canvas.getContext("2d");
 
         const draw = (bgImg, iconImg) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -205,7 +205,7 @@ function upgradesToCanvas() {
     container.id = "upgrade-canvases";
 
     for (let u of upgrades) {
-        container.appendChild(u.setUpCanvas());
+        container.appendChild(u.toCanvas());
     }
 
     return container;
