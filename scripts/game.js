@@ -18,17 +18,7 @@ window.addEventListener("load", () => {
   clickValElement["inert"] = true;                              //make it unselectable as it shows underneath player cursor
 
   initRewards();
-
-  function updateUpgrades() {
-    upgradesElement.innerHTML = "";
-    upgradesElement.appendChild(Upgrades.upgradesToHTML());
-
-    scoreboardElement.innerHTML = "";
-    scoreboardElement.appendChild(Upgrades.upgradesToCanvas())
-  }
-
-  updateUpgrades();
-
+  Upgrades.setUp(upgradesElement,scoreboardElement);
 
   function moveClickValue(x, y) {
     clickValElement.textContent = `+${gameState.clickValue}`;

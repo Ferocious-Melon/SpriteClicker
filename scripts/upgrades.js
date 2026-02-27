@@ -1,22 +1,29 @@
 import gameState from "./gameState.js";
 
 class upgrade {
-    constructor() {
+    constructor(basePrice, cps, pmult, name, imageSrc) {
         this.owned = 0;             //amount of upgrade owned
-        this.cps;
-        this.basePrice; //Base price of item
-        this.pmult;         //Multiplier per upgrade
-        this.name;
         this.imageSrc;
         this.bg = null
+        this.cps = cps;
+        this.basePrice = basePrice; //Base price of item
+        this.pmult = pmult;         //Multiplier per upgrade
+        this.name = name;
+
     }
 
     get price() {
-        return Math.floor(this.basePrice * Math.pow(this.pmult,this.owned));
+        return Math.floor(this.basePrice * Math.pow(this.pmult, this.owned));
     }
 
     get totalCps() {
-        return Math.floor(this.cps*this.owned);
+        return Math.floor(this.cps * this.owned);
+    }
+
+    loadImage() {
+        this.img = new Image();
+        this.img.src = this.imageSrc;
+        this.img.addEventListener("load", () => { this.imageLoaded = true });
     }
 
     toHTML() {
@@ -55,6 +62,7 @@ class upgrade {
 
                 updateCPS();
                 addRandomScoreIcon();
+
             }
         })
 
@@ -67,58 +75,58 @@ class upgrade {
 
     toCanvas() {
         const canvas = document.createElement("canvas");
-        canvas.width =  document.getElementById("scoreboard").offsetWidth;
+        canvas.width = document.getElementById("scoreboard").offsetWidth;
         canvas.height = 200;
         canvas.classList.add("upgrade-canvas");
 
-        const ctx = canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
 
         const draw = (bgImg, iconImg) => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
+
             if (bgImg) {
-              ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+                ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
             }
-        
+
             if (iconImg) {
-              const newWidth = 90;
-              const aspect = iconImg.width / iconImg.height;
-              const newHeight = newWidth / aspect;
-              ctx.drawImage(iconImg, 20, (canvas.height - newHeight) / 2, newWidth, newHeight);
+                const newWidth = 90;
+                const aspect = iconImg.width / iconImg.height;
+                const newHeight = newWidth / aspect;
+                ctx.drawImage(iconImg, 20, (canvas.height - newHeight) / 2, newWidth, newHeight);
             }
-          };
-        
-          // Load images (background + icon), then draw once both are ready
-          let bgImg = null;
-          let iconImg = null;
-          let loaded = 0;
-          const need = (this.bg ? 1 : 0) + (this.imageSrc ? 1 : 0);
-        
-          const doneOne = () => {
+        };
+
+        // Load images (background + icon), then draw once both are ready
+        let bgImg = null;
+        let iconImg = null;
+        let loaded = 0;
+        const need = (this.bg ? 1 : 0) + (this.imageSrc ? 1 : 0);
+
+        const doneOne = () => {
             loaded++;
             if (loaded >= need) draw(bgImg, iconImg);
-          };
-        
-          if (this.bg) {
+        };
+
+        if (this.bg) {
             bgImg = new Image();
             bgImg.src = this.bg;
             bgImg.addEventListener("load", doneOne);
-          }
-        
-          if (this.imageSrc) {
+        }
+
+        if (this.imageSrc) {
             iconImg = new Image();
             iconImg.src = this.imageSrc;
             iconImg.addEventListener("load", doneOne);
-          }
-        
-          // If there are no images, still draw something
-          if (need === 0) draw(null, null);
-        
-          return canvas;
         }
 
-        // ctx.fillStyle = "red";
-        // ctx.fillRect(50, 100,100,100);
+        // If there are no images, still draw something
+        if (need === 0) draw(null, null);
+
+        return canvas;
+    }
+
+    // ctx.fillStyle = "red";
+    // ctx.fillRect(50, 100,100,100);
 
     //     if (this.imageSrc) {
     //         const img = new Image();
@@ -136,6 +144,7 @@ class upgrade {
     //     return canvas;
 
     // }
+
 }
 
 
@@ -149,6 +158,7 @@ export class tapper extends upgrade {
         this.name = "Helper";
         this.bg = "assets/images/scoreboard1.jpg";
         this.imageSrc = "assets/images/totoro.png";
+
     }
 }
 
@@ -156,7 +166,7 @@ export class tapper extends upgrade {
 export class worker extends upgrade {
     constructor() {
         super();
-        this.basePrice= 100;
+        this.basePrice = 100;
         this.pmult = 1.3;
         this.cps = 10;
         this.name = "Chef";
@@ -164,11 +174,12 @@ export class worker extends upgrade {
     }
 }
 
+let upgradeElement, scoreboardElement;
 
-function updateCPS (){
+function updateCPS() {
     let runningCPS = 0;
 
-    for(let u of upgrades){
+    for (let u of upgrades) {
         runningCPS += u.totalCps;
     }
     gameState.setCps(runningCPS);
@@ -176,25 +187,25 @@ function updateCPS (){
 
 const upgrades = [new tapper(), new worker()];
 
-export function upgradesToHTML() {
+function upgradesToHTML() {
     //Create a div to store all the elements
     const container = document.createElement("div");
     container.id = "upgrade-list";
 
     //Iterate through all upgrades and append their html element
-    for (let u of upgrades){
+    for (let u of upgrades) {
         container.appendChild(u.toHTML());
     }
 
     return container;
 }
 
-export function upgradesToCanvas() {
+function upgradesToCanvas() {
     const container = document.createElement("div");
     container.id = "upgrade-canvases";
 
-    for (let u of upgrades){
-        container.appendChild(u.toCanvas());
+    for (let u of upgrades) {
+        container.appendChild(u.setUpCanvas());
     }
 
     return container;
@@ -207,20 +218,38 @@ const scoreIconPool = [
     "assets/images/ponyo4.png",
     "assets/images/ponyo5.png",
     // add as many as you want
-  ];
-  
-  function addRandomScoreIcon() {
+];
+
+function addRandomScoreIcon() {
     const holder = document.getElementById("score-icons");
     if (!holder) return;
-  
+
     const src = scoreIconPool[Math.floor(Math.random() * scoreIconPool.length)];
-  
+
     const img = document.createElement("img");
     img.src = src;
     img.alt = "upgrade icon";
-  
+
     holder.appendChild(img);
-  
+
     // trigger fade-in
     requestAnimationFrame(() => img.classList.add("show"));
-  }
+}
+
+function updateScoreboard() {
+    scoreboardElement.innerHTML = "";
+    scoreboardElement.appendChild(upgradesToCanvas())
+}
+
+function updateUpgrades() {
+    upgradeElement.innerHTML = "";
+    upgradeElement.appendChild(upgradesToHTML());
+}
+
+export function setUp(ue, se) {
+    upgradeElement = ue;
+    scoreboardElement = se;
+
+    updateScoreboard();
+    updateUpgrades();
+}
