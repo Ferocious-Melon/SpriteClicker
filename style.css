@@ -83,7 +83,8 @@ body {
 .star {
   position: fixed;
   width: 25px;
-  pointer-events: none; /* so it doesn't block clicks */
+  pointer-events: none;
+  /* so it doesn't block clicks */
   animation: starPop 0.6s ease-out forwards;
 }
 
@@ -92,6 +93,7 @@ body {
     opacity: 1;
     transform: translateY(0) scale(0.8);
   }
+
   100% {
     opacity: 0;
     transform: translateY(-60px) scale(1.4);
@@ -126,6 +128,32 @@ body {
   font-size: large;
 }
 
+#scoreboard {
+  
+}
+
+#score-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  align-items: center;
+}
+
+#score-icons img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+#score-icons img.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .rewards-area {
   background: rgba(0, 0, 0, 0.3);
 }
@@ -134,14 +162,6 @@ body {
   background-color: rgba(0, 0, 0, 0.7);
   padding: 10px;
   text-align: center;
-}
-
-.achievements {
-  display: block;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 750px;
-  overflow: auto;
 }
 
 .achievement-img {
@@ -173,12 +193,23 @@ body {
 }
 
 .achievement {
+  font-family: monospace;
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid white;
   padding: 10px;
   margin: 5px;
   border-radius: 8px;
   text-align: center;
+
+  opacity: 0;
+  transform: translateY(10px);
+  /* slight lift effect */
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.achievement.show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 @keyframes jump {

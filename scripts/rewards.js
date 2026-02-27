@@ -1,6 +1,6 @@
 import gameState from "./gameState.js";
 
-let goal = 2;
+let goal = 25;
 const images = [
   "assets/images/icon1.png",
   "assets/images/icon2.png",
@@ -20,6 +20,7 @@ const images = [
  * Reveals a banner when the user reaches a certain goal
  */
 export function initRewards() {
+
   if (document.getElementById("rewards-banner")) return;
 
   //creates a banner
@@ -49,17 +50,18 @@ export function initRewards() {
   }
 
   const achievementsContainer = document.querySelector(".achievements");
+  
   function addAchievement(goalReached) {
     const randIndex = Math.floor(Math.random() * images.length);
     const randImg = images[randIndex];
 
     const achievement = document.createElement("div");
     achievement.classList.add("achievement");
-    
+
     const img = document.createElement("img");
     img.src = randImg;
     img.classList.add("achievement-img");
-
+    
     const text = document.createElement("span");
     text.textContent = `Unlocked: ${goalReached} Clicks!!`;
 
@@ -67,6 +69,7 @@ export function initRewards() {
     achievement.appendChild(text);
     achievementsContainer.appendChild(achievement);
 
+    requestAnimationFrame(() => achievement.classList.add("show"));
   }
 
   /**
@@ -77,7 +80,7 @@ export function initRewards() {
       showBanner(`Reached ${goal} clicks!`);
       addAchievement(goal)
 
-      goal += 2;
+      goal *= 2;
       console.log(`next goal: ${goal}`)
     }
   });
