@@ -8,14 +8,14 @@ window.addEventListener("load", () => {
   const CPS_TIME_INTERVAL = 10; //Interval clicks per second are added to the balance
 
   const balElement = document.getElementById("bal");          //element storing text balance
-  const clickCount = document.getElementById("click"); //element storing click amount
+  const clickCount = document.getElementById("click");        //element storing click amount
   const cpsElement = document.getElementById("cps");          //element storing cps as text
+  const clickValElement = document.getElementById("click-val"); //element w/ value of click
   const clicker = document.getElementById("click-button");    //element with le button in it
   const upgradesElement = document.getElementById("upgrades-container"); //element which will store the upgrades for purchase
   const scoreboardElement = document.getElementById("scoreboard-container");
 
-  const clickValElement = document.getElementById("click-val"); //element w/ value of click
-  clickValElement["inert"] = true;                              //make it unselectable as it shows underneath player cursor
+  
 
   initRewards();
   Upgrades.setUp(upgradesElement,scoreboardElement);

@@ -32,7 +32,7 @@ body {
   align-items: stretch;
 }
 
-.game-container>div {
+.game-container > div {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -42,7 +42,7 @@ body {
   padding: 10px;
 }
 
-.game-container>div h1 {
+.game-container > div h1 {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -69,7 +69,7 @@ body {
 
 #click-button:hover {
   transform: scale(1.05);
-  filter: drop-shadow(0 0 5px #8e733496) drop-shadow(0 0 10px #e7ff6d39)
+  filter: drop-shadow(0 0 5px #8e733496) drop-shadow(0 0 10px #e7ff6d39);
 }
 
 #click-val {
@@ -104,12 +104,31 @@ body {
   background: rgba(0, 0, 0, 0.3);
 }
 
+#upgrades-container {
+  overflow-y: auto;
+}
+
 .upgrade {
   border: 1px solid white;
   padding: 10px;
+  height: 120px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.icon-container {
+  height: 95%;
+  width: 30%;
+  overflow: hidden;
+}
+
+.icon {
+  width: 100%;
+  height: auto;
+  display:block;
+  object-fit: contain;
 }
 
 .upgrade-text {
@@ -129,6 +148,34 @@ body {
   font-size: large;
 }
 
+#scoreboard {
+  gap: 20px;
+}
+
+#ponyo-upgrades {
+  background: url("assets/images/scoreboard1.jpg");
+  min-height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+
+#totoro-upgrades {
+  background: url("assets/images/scoreboard2.avif");
+  min-height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+
+#haku-upgrades {
+  background: url("assets/images/scoreboard3.jpg");
+  min-height: 200px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+}
+
 #score-icons {
   display: flex;
   flex-wrap: wrap;
@@ -143,7 +190,9 @@ body {
   object-fit: contain;
   opacity: 0;
   transform: translateY(6px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 
 #score-icons img.show {
@@ -201,7 +250,9 @@ body {
   opacity: 0;
   transform: translateY(10px);
   /* slight lift effect */
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
 }
 
 .achievement.show {
@@ -232,7 +283,7 @@ body {
   }
 
   100% {
-    opacity: 0%
+    opacity: 0%;
   }
 }
 

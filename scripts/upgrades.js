@@ -40,6 +40,14 @@ class upgrade {
         container.classList.add("upgrade");
         container.innerHTML = "";
 
+        const iconContainer = document.createElement("div");
+        iconContainer.classList.add("icon-container");
+        const icon = new Image();
+        icon.src = this.imageSrc;
+        icon.classList.add("icon");
+
+        iconContainer.appendChild(icon);
+
         //Creating the text content for the upgrade
         const text = document.createElement("div");
         text.classList.add("upgrade-text");
@@ -74,6 +82,7 @@ class upgrade {
         })
 
         //Adding both elements to the container and returning it
+        container.appendChild(iconContainer);
         container.appendChild(text);
         container.appendChild(buyButton);
 
@@ -174,10 +183,8 @@ export class tapper extends upgrade {
         this.basePrice = 10;
         this.pmult = 1.1;
         this.cps = 1;
-        this.name = "Helper";
-        this.bg = "assets/images/scoreboard1.jpg";
-        this.imageSrc = "assets/images/totoro.png";
-
+        this.name = "Sprite";
+        this.imageSrc = "assets/images/SpriteIcon.png";
     }
 }
 
@@ -188,12 +195,25 @@ export class worker extends upgrade {
         this.basePrice = 100;
         this.pmult = 1.3;
         this.cps = 10;
-        this.name = "Chef";
-        this.bg = "assets/images/scoreboard2.jpg";
+        this.name = "Totoro";
+        this.imageSrc = "assets/images/Totoro.png"
+    }
+}
+
+export class factory extends upgrade {
+    constructor(){
+        super();
+        this.basePrice = 10000;
+        this.pmult = 1.3;
+        this.cps = 500;
+        this.name = "Haku";
+        this.imageSrc="assets/images/haku.png"
     }
 }
 
 let upgradeElement, scoreboardElement;
+
+const upgrades = [new tapper(), new worker(), new factory()];
 
 function updateCPS() {
     let runningCPS = 0;
@@ -203,8 +223,6 @@ function updateCPS() {
     }
     gameState.setCps(runningCPS);
 }
-
-const upgrades = [new tapper(), new worker()];
 
 function upgradesToHTML() {
     //Create a div to store all the elements
@@ -231,27 +249,28 @@ function upgradesToCanvas() {
 }
 
 //upgrade icons
-const scoreIconPool = [
+const ponyoIcons = [
     "assets/images/ponyo1.png",
     "assets/images/ponyo2.png",
     "assets/images/ponyo3.png",
     "assets/images/ponyo4.png",
     "assets/images/ponyo5.png",
-
 ];
 
 /**
  * Adds a random icon to the scoreboard.
  */
 function addRandomScoreIcon() {
-    const holder = document.getElementById("score-icons");
+    const holder = document.getElementById("ponyo-upgrades");
+    
     if (!holder) return;
 
-    const src = scoreIconPool[Math.floor(Math.random() * scoreIconPool.length)];
+    const src = ponyoIcons[Math.floor(Math.random() * ponyoIcons.length)];
 
     const img = document.createElement("img");
     img.src = src;
     img.alt = "upgrade icon";
+    img.style.height = "40px";
 
     holder.appendChild(img);
 
@@ -272,7 +291,6 @@ function updateUpgrades() {
 export function setUp(ue, se) {
     upgradeElement = ue;
     scoreboardElement = se;
-
-    updateScoreboard();
+    
     updateUpgrades();
 }
