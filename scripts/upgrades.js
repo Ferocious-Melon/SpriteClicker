@@ -1,8 +1,21 @@
 import gameState from "./gameState.js";
 
+
+/**
+ * Upgrade class that represents a purchasable upgrade in the game.
+ */
 class upgrade {
+<<<<<<< Updated upstream
     constructor(basePrice, cps, pmult, name, imageSrc) {
         this.owned = 0;             //amount of upgrade owned
+=======
+    constructor() {
+        this.owned = 0; //amount of upgrade owned
+        this.cps;
+        this.basePrice; //Base price of item
+        this.pmult; //Multiplier per upgrade
+        this.name;
+>>>>>>> Stashed changes
         this.imageSrc;
         this.bg = null
         this.cps = cps;
@@ -12,20 +25,23 @@ class upgrade {
 
     }
 
+    /**
+     * Current price of the upgrade.
+     */
     get price() {
         return Math.floor(this.basePrice * Math.pow(this.pmult, this.owned));
     }
 
+    /**
+     * Total clicks per second contributed by this upgrade type.
+     */
     get totalCps() {
         return Math.floor(this.cps * this.owned);
     }
 
-    loadImage() {
-        this.img = new Image();
-        this.img.src = this.imageSrc;
-        this.img.addEventListener("load", () => { this.imageLoaded = true });
-    }
-
+    /**
+     * Generates the HTML representation of the upgrade
+     */
     toHTML() {
 
         //Creating the container for the upgrade
@@ -73,6 +89,9 @@ class upgrade {
         return container;
     }
 
+    /**
+    * Generates a canvas showing the upgrade on the scoreboard
+    */
     toCanvas() {
         const canvas = document.createElement("canvas");
         canvas.width = document.getElementById("scoreboard").offsetWidth;
@@ -81,13 +100,20 @@ class upgrade {
 
         const ctx = canvas.getContext("2d");
 
+        /**
+         * Draw function.
+         * Clears canvas, then draws background and icon
+         */
         const draw = (bgImg, iconImg) => {
+            //Clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            //Draw background image stretch to full canvas
             if (bgImg) {
                 ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
             }
 
+            //Draw icon
             if (iconImg) {
                 const newWidth = 90;
                 const aspect = iconImg.width / iconImg.height;
@@ -107,12 +133,14 @@ class upgrade {
             if (loaded >= need) draw(bgImg, iconImg);
         };
 
+        //load background
         if (this.bg) {
             bgImg = new Image();
             bgImg.src = this.bg;
             bgImg.addEventListener("load", doneOne);
         }
 
+        //load foreground
         if (this.imageSrc) {
             iconImg = new Image();
             iconImg.src = this.imageSrc;
@@ -211,15 +239,19 @@ function upgradesToCanvas() {
     return container;
 }
 
+//upgrade icons
 const scoreIconPool = [
     "assets/images/ponyo1.png",
     "assets/images/ponyo2.png",
     "assets/images/ponyo3.png",
     "assets/images/ponyo4.png",
     "assets/images/ponyo5.png",
-    // add as many as you want
+
 ];
 
+/**
+ * Adds a random icon to the scoreboard.
+ */
 function addRandomScoreIcon() {
     const holder = document.getElementById("score-icons");
     if (!holder) return;

@@ -1,6 +1,9 @@
 import gameState from "./gameState.js";
 
+//Starting goal for unlocking the first achievement
 let goal = 25;
+
+//Achievement icons
 const images = [
   "assets/images/icon1.png",
   "assets/images/icon2.png",
@@ -17,13 +20,14 @@ const images = [
 ];
 
 /**
- * Reveals a banner when the user reaches a certain goal
+ * Create the rewards system
+ * Reveals a banner and achievement when the user reaches a certain goal
  */
 export function initRewards() {
 
-  if (document.getElementById("rewards-banner")) return;
+  // if (document.getElementById("rewards-banner")) return;
 
-  //creates a banner
+  //creates a banner element
   const banner = document.createElement("div");
   banner.id = "rewards-banner";
   banner.classList.add("hidden");
@@ -31,8 +35,10 @@ export function initRewards() {
 
   let bannerTimer = null;
 
-  /**
-   * Reveals a goal banner for a short period of time
+  /*
+   * Displays the banner with a message for a short period of time
+   * @param {string} message - Text to display
+   * @param {number} ms - How long banner stays visible
    */
   function showBanner(message, ms = 2500) {
     banner.textContent = message;
@@ -51,6 +57,11 @@ export function initRewards() {
 
   const achievementsContainer = document.querySelector(".achievements");
   
+   /*
+   * Displays a new achievement in the rewards panel
+   * @param {string} message - Text to display
+   * @param {number} goalReached - The goal value achieved
+   */
   function addAchievement(goalReached) {
     const randIndex = Math.floor(Math.random() * images.length);
     const randImg = images[randIndex];
@@ -74,6 +85,7 @@ export function initRewards() {
 
   /**
    * Listener that tracks when user meets the certain amount of clicks
+   * Shows banner, add achievement and double the goal when the amount of clicks reaches or exceeds the goal
    */
   gameState.addClickListener((clicks) => {
     if (clicks >= goal) {

@@ -129,11 +129,6 @@ body {
   font-size: large;
 }
 
-#scoreboard {
-
-
-}
-
 #score-icons {
   display: flex;
   flex-wrap: wrap;
