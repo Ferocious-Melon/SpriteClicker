@@ -152,17 +152,25 @@ body {
   gap: 20px;
 }
 
+#scoreboard-container{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+}
+
 #ponyo-upgrades {
   background: url("assets/images/scoreboard1.jpg");
-  min-height: 200px;
+  height: 200px;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
+  overflow-x: auto;
 }
 
 #totoro-upgrades {
   background: url("assets/images/scoreboard2.avif");
-  min-height: 200px;
+  height: 200px;
   background-size: cover;
   background-position: center;
   border-radius: 10px;
@@ -170,7 +178,7 @@ body {
 
 #haku-upgrades {
   background: url("assets/images/scoreboard3.jpg");
-  min-height: 200px;
+  height: 200px;
   background-size: cover;
   background-position: center;
   border-radius: 10px;

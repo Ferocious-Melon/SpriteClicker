@@ -8,6 +8,7 @@ class GameState {
         this.balListeners = [];
         this.cpsListeners = [];
         this.clickListeners = [];
+        this.clickValueListeners = [];
     }
 
     setCps(newCps) {
@@ -60,6 +61,14 @@ class GameState {
         //Run the function associated with a click for all
         //listeners provided
         this.clickListeners.forEach((listener) => listener(this.clicks));
+    }
+
+    addClickBalanceListener(listener){this.clickBalanceListeners.push(listener)}
+
+    notifyClickBalanceListeners() {
+        //Run the functions associated with a change in click value for all
+        //listeners provided
+        this.clickBalanceListeners.forEach((listener) => listener(this.clickValue));
     }
 }
 

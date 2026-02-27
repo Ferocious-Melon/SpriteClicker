@@ -20,15 +20,6 @@ window.addEventListener("load", () => {
   initRewards();
   Upgrades.setUp(upgradesElement,scoreboardElement);
 
-  function moveClickValue(x, y) {
-    clickValElement.textContent = `+${gameState.clickValue}`;
-    clickValElement.style["left"] = `${x}px`;
-    clickValElement.style["top"] = `${y}px`;
-
-    clickValElement.classList.remove("fading");
-    clickValElement.classList.add("fading");
-  }
-
   //add a listener to update the balance element whenever it changes
   gameState.addBalanceListener((newbal) => {
     balElement.textContent = Math.floor(newbal);
@@ -48,7 +39,7 @@ window.addEventListener("load", () => {
   clicker.addEventListener("click", (e) => {
 
     //Move the click value element
-    moveClickValue(e.clientX, e.clientY);
+    //moveClickValue(e.clientX, e.clientY);
 
     clicker.classList.remove("animated");
     clicker.classList.add("animated");
@@ -58,10 +49,6 @@ window.addEventListener("load", () => {
   // //End animation events to remove the animation classes
   clicker.addEventListener("animationend", () => {
     clicker.classList.remove("animated");
-  });
-
-  clickValElement.addEventListener("animationend", () => {
-    clickValElement.classList.remove("fading");
   });
 
   //Set up an interval to add the appropriate amount of money based on the current CPS every 100ms
