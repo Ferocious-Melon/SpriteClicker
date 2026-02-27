@@ -1,7 +1,8 @@
 import gameState from "./gameState.js";
 
 //Starting goal for unlocking the first achievement
-let goal = 25;
+let clickGoal = 25;
+let spriteGoal = 5;
 
 //Achievement icons
 const images = [
@@ -56,13 +57,13 @@ export function initRewards() {
   }
 
   const achievementsContainer = document.querySelector(".achievements");
-  
-   /*
-   * Displays a new achievement in the rewards panel
-   * @param {string} message - Text to display
-   * @param {number} goalReached - The goal value achieved
-   */
-  function addAchievement(goalReached) {
+
+  /*
+  * Displays a new achievement in the rewards panel
+  * @param {string} message - Text to display
+  * @param {number} goalReached - The goal value achieved
+  */
+  function addAchievement(goalReached, type) {
     const randIndex = Math.floor(Math.random() * images.length);
     const randImg = images[randIndex];
 
@@ -72,9 +73,9 @@ export function initRewards() {
     const img = document.createElement("img");
     img.src = randImg;
     img.classList.add("achievement-img");
-    
+
     const text = document.createElement("span");
-    text.textContent = `Unlocked: ${goalReached} Clicks!!`;
+    text.textContent = `Unlocked: ${goalReached} ${type} !!`;
 
     achievement.appendChild(img);
     achievement.appendChild(text);
@@ -88,12 +89,22 @@ export function initRewards() {
    * Shows banner, add achievement and double the goal when the amount of clicks reaches or exceeds the goal
    */
   gameState.addClickListener((clicks) => {
-    if (clicks >= goal) {
-      showBanner(`Reached ${goal} clicks!`);
-      addAchievement(goal)
+    if (clicks >= clickGoal) {
+      showBanner(`Reached ${clickGoal} clicks!`);
+      addAchievement(clickGoal, "clicks")
 
-      goal *= 2;
-      console.log(`next goal: ${goal}`)
+      clickGoal *= 2;
+      console.log(`next goal: ${clickGoal}`)
+    }
+  });
+
+  gameState.addClickListener((balance) => {
+    if (balance >= spriteGoal) {
+      showBanner(`Collected ${spriteGoal} sprites!`);
+      addAchievement(spriteGoal, "sprites");
+
+      spriteGoal *= 2;
+      console.log(`next goal: ${spriteGoal}`)
     }
   });
 }

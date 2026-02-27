@@ -14,8 +14,30 @@ window.addEventListener("load", () => {
   const clicker = document.getElementById("click-button");    //element with le button in it
   const upgradesElement = document.getElementById("upgrades-container"); //element which will store the upgrades for purchase
   const scoreboardElement = document.getElementById("scoreboard-container");
+  const starElement = document.getElementById("stars");
 
-  
+  const starSrcs = [
+    "assets/images/star1.png"
+   ,"assets/images/star2.png"
+   ,"assets/images/star3.png"
+   ,"assets/images/star4.png"
+  ];
+
+
+  function createStar(x,y){
+    const star = document.createElement("img");
+    star.src = starSrcs[Math.floor(Math.random() * starSrcs.length)];
+    star.classList.add("star");
+    star.addEventListener("load", () => {
+      star.style["left"] = `${x}px`;
+      star.style["top"] = `${y}px`;
+      classList.add("animate-star");
+    })
+    star.addEventListener("animationend",()=>{
+      this.remove();
+    })
+    return star;
+  }
 
   initRewards();
   Upgrades.setUp(upgradesElement,scoreboardElement);
@@ -35,14 +57,15 @@ window.addEventListener("load", () => {
     cpsElement.textContent = Math.floor(newcps);
   });
 
+  gameState.addClickValueListener((clickVal) => {
+    clickValElement.textContent = clickVal;
+  })
+
   // //Actions to be done on click
   clicker.addEventListener("click", (e) => {
-
-    //Move the click value element
-    //moveClickValue(e.clientX, e.clientY);
-
     clicker.classList.remove("animated");
     clicker.classList.add("animated");
+    starElement.appendChild(createStar(e.clientX, e.clientY));
     gameState.addClick();
   });
 

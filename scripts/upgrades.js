@@ -12,8 +12,8 @@ class upgrade {
         this.pmult; //Multiplier per upgrade
         this.name;
         this.imageSrc;
-        this.bg = null
-        this.cps = cps;
+        this.scoreboardTarget = null;
+        this.scoreIcon = null;
     }
 
     /**
@@ -75,9 +75,11 @@ class upgrade {
                 this.owned += 1;
                 owned.textContent = `Owned: ${this.owned}`;
                 price.textContent = `Price: ${this.price}`;
-
                 updateCPS();
-                addRandomScoreIcon();
+
+                if (this.scoreboardTarget && this.scoreIcon) {
+                    addIcon(this.scoreIcon, this.scoreboardTarget, this.iconHeight);
+                }
             }
         })
 
@@ -92,7 +94,6 @@ class upgrade {
 
 }
 
-
 //Basic upgrade
 export class tapper extends upgrade {
     constructor() {
@@ -100,8 +101,12 @@ export class tapper extends upgrade {
         this.basePrice = 10;
         this.pmult = 1.1;
         this.cps = 1;
-        this.name = "Sprite";
+        this.name = "Ponyo";
         this.imageSrc = "assets/images/ponyo1.png";
+
+        this.scoreboardTarget = "ponyo-upgrades";
+        this.scoreIcon = "randomPonyo";
+        this.iconHeight = 40;
     }
 }
 
@@ -114,17 +119,25 @@ export class worker extends upgrade {
         this.cps = 10;
         this.name = "Totoro";
         this.imageSrc = "assets/images/Totoro.png"
+
+        this.scoreboardTarget = "totoro-upgrades";
+        this.scoreIcon = "assets/images/Totoro.png";
+        this.iconHeight = 80;
     }
 }
 
 export class factory extends upgrade {
-    constructor(){
+    constructor() {
         super();
         this.basePrice = 10000;
         this.pmult = 1.3;
         this.cps = 500;
         this.name = "Haku";
-        this.imageSrc="assets/images/haku.png"
+        this.imageSrc = "assets/images/haku.png";
+
+        this.scoreboardTarget = "haku-upgrades";
+        this.scoreIcon = "assets/images/haku.png";
+        this.iconHeight = 120;
     }
 }
 
@@ -165,7 +178,7 @@ function upgradesToCanvas() {
     return container;
 }
 
-//upgrade icons
+//ponyo upgrade icons
 const ponyoIcons = [
     "assets/images/ponyo1.png",
     "assets/images/ponyo2.png",
@@ -175,29 +188,26 @@ const ponyoIcons = [
 ];
 
 /**
- * Adds a random icon to the scoreboard.
+ * Adds an icon to the scoreboard.
  */
-function addRandomScoreIcon() {
-    const holder = document.getElementById("ponyo-upgrades");
-    
+function addIcon(icon, scoreboard, height=40) {
+    const holder = document.getElementById(scoreboard);
+
     if (!holder) return;
 
-    const src = ponyoIcons[Math.floor(Math.random() * ponyoIcons.length)];
+    const src = (icon === "randomPonyo")
+    ? ponyoIcons[Math.floor(Math.random() * ponyoIcons.length)]
+    : icon;
 
     const img = document.createElement("img");
     img.src = src;
     img.alt = "upgrade icon";
-    img.style.height = "160px";
+    img.style.height =  height + "px";
 
     holder.appendChild(img);
 
     // trigger fade-in
     requestAnimationFrame(() => img.classList.add("show"));
-}
-
-function updateScoreboard() {
-    scoreboardElement.innerHTML = "";
-    scoreboardElement.appendChild(upgradesToCanvas())
 }
 
 function updateUpgrades() {

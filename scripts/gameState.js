@@ -11,6 +11,11 @@ class GameState {
         this.clickValueListeners = [];
     }
 
+    setClickVal(val){
+        this.clickValue = val;
+        this.notifyClickBalanceListeners
+    }
+
     setCps(newCps) {
         this.cps = newCps;
         this.notifyCPSListeners();
@@ -63,9 +68,9 @@ class GameState {
         this.clickListeners.forEach((listener) => listener(this.clicks));
     }
 
-    addClickBalanceListener(listener){this.clickBalanceListeners.push(listener)}
+    addClickValueListener(listener){this.clickValueListeners.push(listener)}
 
-    notifyClickBalanceListeners() {
+    notifyClickValueListeners() {
         //Run the functions associated with a change in click value for all
         //listeners provided
         this.clickBalanceListeners.forEach((listener) => listener(this.clickValue));
