@@ -5,24 +5,15 @@ import gameState from "./gameState.js";
  * Upgrade class that represents a purchasable upgrade in the game.
  */
 class upgrade {
-<<<<<<< Updated upstream
-    constructor(basePrice, cps, pmult, name, imageSrc) {
-        this.owned = 0;             //amount of upgrade owned
-=======
     constructor() {
         this.owned = 0; //amount of upgrade owned
         this.cps;
         this.basePrice; //Base price of item
         this.pmult; //Multiplier per upgrade
         this.name;
->>>>>>> Stashed changes
         this.imageSrc;
         this.bg = null
         this.cps = cps;
-        this.basePrice = basePrice; //Base price of item
-        this.pmult = pmult;         //Multiplier per upgrade
-        this.name = name;
-
     }
 
     /**
