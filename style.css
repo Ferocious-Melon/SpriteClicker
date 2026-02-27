@@ -116,6 +116,7 @@ body {
 
 .upgrade-canvas {
   background-color: white;
+  margin: 0 1px;
 }
 
 .buy-button {
@@ -124,6 +125,10 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   font-size: large;
+}
+
+#scoreboard {
+  padding: 15px 0;
 }
 
 .rewards-area {
@@ -187,7 +192,7 @@ body {
     top: 0px;
   }
 
-  30% {
+  50% {
     left: 0px;
     top: -20px;
   }
@@ -210,7 +215,7 @@ body {
 
 .animated {
   animation-name: jump;
-  animation-duration: 0.2s;
+  animation-duration: 0.1s;
 }
 
 .fading {

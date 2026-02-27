@@ -1,13 +1,21 @@
 import gameState from "./gameState.js";
 
 class upgrade {
-    constructor() {
+    constructor(basePrice, cps, pmult, name, imageSrc) {
         this.owned = 0;             //amount of upgrade owned
-        this.cps;
-        this.basePrice; //Base price of item
-        this.pmult;         //Multiplier per upgrade
-        this.name;
-        this.imageSrc;
+        this.cps = cps;
+        this.basePrice = basePrice; //Base price of item
+        this.pmult = pmult;         //Multiplier per upgrade
+        this.name = name;
+
+        this.imageSrc = imageSrc;
+        this.imageLoaded = false;
+        this.img;
+
+        this.canvas;
+        this.ctx;
+
+        this.loadImage();
     }
 
     get price() {
@@ -16,6 +24,12 @@ class upgrade {
 
     get totalCps() {
         return Math.floor(this.cps*this.owned);
+    }
+
+    loadImage() {
+        this.img = new Image();
+        this.img.src = this.imageSrc;
+        this.img.addEventListener("load",() => {this.imageLoaded = true});
     }
 
     toHTML() {
@@ -53,6 +67,7 @@ class upgrade {
                 price.textContent = `Price: ${this.price}`;
 
                 updateCPS();
+                this.drawNew();
             }
         })
 
@@ -63,60 +78,73 @@ class upgrade {
         return container;
     }
 
-    toCanvas() {
+    setUpCanvas() {
 
-        const canvas = document.createElement("canvas");
-        canvas.width =  document.getElementById("scoreboard").offsetWidth;
-        canvas.height = 200;
-        canvas.classList.add("upgrade-canvas");
+        this.canvas = document.createElement("canvas");
+        this.canvas.width =  document.getElementById("scoreboard").offsetWidth;
+        this.canvas.height = 200;
+        this.canvas.classList.add("upgrade-canvas");
 
-        const ctx = canvas.getContext("2d");
+        this.ctx = this.canvas.getContext("2d");
 
-        ctx.fillStyle = "red";
-        ctx.fillRect(50, 100,100,100);
+        this.ctx.fillStyle = "red";
+        this.ctx.fillRect(50, 100,100,100);
 
-        if (this.imageSrc) {
-            const img = new Image();
-            img.src = this.imageSrc;
+        if (this.imageLoaded) {
+            for(let i = 0; i < this.owned; i++){
+                this.drawNew();
+            }
+        }
 
-            const aspectRatio = img.width/img.height;
+        return this.canvas;
+
+    }
+
+    drawNew() {
+        if (this.ctx && this.imageLoaded){
+
+            const aspectRatio = this.img.width/this.img.height;
             const newWidth = 70;
             const newHeight = newWidth*(1/aspectRatio);
 
-            img.addEventListener("load", () => {
-                ctx.drawImage(img,0,0, newWidth, newHeight);
-            })
+
+            const x = Math.random()*(this.canvas.width-newWidth);
+            const y = Math.random()*(this.canvas.height-newHeight)
+
+            console.log(`drawn: (${x},${y})`);
+
+            this.ctx.drawImage(this.img,x,y,newWidth, newHeight);
         }
-
-        return canvas;
-
     }
+
 }
 
 
 //Basic upgrade
 export class tapper extends upgrade {
     constructor() {
-        super();
-        this.basePrice = 10;
-        this.pmult = 1.1;
-        this.cps = 1;
-        this.name = "Helper";
-        this.imageSrc = "assets/images/totoro.png";
+        super(10
+             ,1
+             ,1.1
+             ,"Helper",
+              "assets/images/totoro.png"
+        );
     }
 }
 
 //Slightly fancier upgrade oooooo
 export class worker extends upgrade {
     constructor() {
-        super();
-        this.basePrice= 100;
-        this.pmult = 1.3;
-        this.cps = 10;
-        this.name = "Chef";
+        super(100
+             ,10
+             ,1.3
+             ,"Chef"
+             ,"assets/images/star1.png"
+            );
     }
 }
 
+let upgradeElement, scoreboardElement;
 
 function updateCPS (){
     let runningCPS = 0;
@@ -129,7 +157,7 @@ function updateCPS (){
 
 const upgrades = [new tapper(), new worker()];
 
-export function upgradesToHTML() {
+function upgradesToHTML() {
     //Create a div to store all the elements
     const container = document.createElement("div");
     container.id = "upgrade-list";
@@ -142,13 +170,31 @@ export function upgradesToHTML() {
     return container;
 }
 
-export function upgradesToCanvas() {
+function upgradesToCanvas() {
     const container = document.createElement("div");
     container.id = "upgrade-canvases";
 
     for (let u of upgrades){
-        container.appendChild(u.toCanvas());
+        container.appendChild(u.setUpCanvas());
     }
 
     return container;
+}
+
+function updateScoreboard(){
+    scoreboardElement.innerHTML = "";
+    scoreboardElement.appendChild(upgradesToCanvas())
+}
+
+function updateUpgrades(){
+    upgradeElement.innerHTML = "";
+    upgradeElement.appendChild(upgradesToHTML());
+}
+
+export function setUp(ue, se) {
+    upgradeElement = ue;
+    scoreboardElement = se;
+
+    updateScoreboard();
+    updateUpgrades();
 }
