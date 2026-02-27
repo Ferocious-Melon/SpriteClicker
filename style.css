@@ -17,6 +17,7 @@ p {
   font-family: monospace;
   color: white;
 }
+
 body {
   background: url("assets/images/ClickerBackground.png");
   background-size: cover;
@@ -31,7 +32,7 @@ body {
   align-items: stretch;
 }
 
-.game-container > div {
+.game-container>div {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -41,7 +42,7 @@ body {
   padding: 10px;
 }
 
-.game-container > div h1 {
+.game-container>div h1 {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -60,18 +61,41 @@ body {
   width: 100%;
   aspect-ratio: 1/1;
 
-  background-image: url("assets/images/Sprite.png");
+  background-image: url("assets/images/sootSpriteIcon.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
+#click-button:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 0 5px #8e733496) drop-shadow(0 0 10px #e7ff6d39)
+}
+
 #click-val {
+  opacity: 0;
+  user-select: none;
+  cursor: default;
+  position: fixed;
+  font-size: 20px;
+}
+
+.star {
+  position: fixed;
+  width: 25px;
+  pointer-events: none; /* so it doesn't block clicks */
+  animation: starPop 0.6s ease-out forwards;
+}
+
+@keyframes starPop {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(0.8);
+  }
+  100% {
     opacity: 0;
-    user-select: none;
-    cursor: default;
-    position: fixed;
-    font-size: 20px;
+    transform: translateY(-60px) scale(1.4);
+  }
 }
 
 .upgrades {
@@ -106,31 +130,55 @@ body {
   background: rgba(0, 0, 0, 0.3);
 }
 
-.achievements {
-    display: flex;
-    flex-wrap: wrap;
+.banner {
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  text-align: center;
 }
 
-.banner {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 10px;
-    text-align: center;
+.achievements {
+  display: block;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 750px;
+  overflow: auto;
+}
+
+.achievement-img {
+  width: 50px;
 }
 
 #rewards-banner {
   position: fixed;
   top: 20px;
   left: 50%;
-  background: #222;
+  transform: translateX(-50%);
+  z-index: 999999;
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 18px;
+
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  will-change: opacity;
 }
 
-.hidden {
+#rewards-banner.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+.achievement {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid white;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 8px;
+  text-align: center;
 }
 
 @keyframes jump {
@@ -138,23 +186,26 @@ body {
     left: 0px;
     top: 0px;
   }
+
   30% {
     left: 0px;
     top: -20px;
   }
+
   100% {
     left: 0px;
     top: 0px;
   }
 }
 
-@keyframes fade{
-    0%{
-        opacity: 100%;
-    }
-    100% {
-        opacity: 0%
-    }
+@keyframes fade {
+  0% {
+    opacity: 100%;
+  }
+
+  100% {
+    opacity: 0%
+  }
 }
 
 .animated {
@@ -163,7 +214,7 @@ body {
 }
 
 .fading {
-    display: block;
-    animation-name: fade;
-    animation-duration: 0.5s;
+  display: block;
+  animation-name: fade;
+  animation-duration: 0.5s;
 }
