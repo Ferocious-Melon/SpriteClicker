@@ -70,6 +70,7 @@ class upgrade {
         buyButton.textContent = "Buy";
         buyButton.addEventListener("click", (event) => {
             if (gameState.balance >= this.price) {
+                console.log("happened")
                 event.target.classList.add("available");
                 gameState.removeBal(this.price);
                 this.owned += 1;

@@ -2,7 +2,8 @@ class GameState {
     constructor() {
         this.balance = 0;
         this.clicks = 0;
-        this.clickValue = 1;
+        this.baseClickValue = 1;
+        this.clickValMult =  1;
         this.cps = 0;
 
         this.balListeners = [];
@@ -11,9 +12,18 @@ class GameState {
         this.clickValueListeners = [];
     }
 
-    setClickVal(val){
-        this.clickValue = val;
-        this.notifyClickBalanceListeners
+    get clickValue() {
+        return this.baseClickValue*this.clickValMult;
+    }
+
+    set clickValue(value) {
+        this.baseClickValue = value;
+        this.notifyClickValueListeners();
+    }
+
+    setClickValMult(value) {
+        this.clickValMult = value;
+        this.notifyClickValueListeners();
     }
 
     setCps(newCps) {
@@ -73,7 +83,7 @@ class GameState {
     notifyClickValueListeners() {
         //Run the functions associated with a change in click value for all
         //listeners provided
-        this.clickBalanceListeners.forEach((listener) => listener(this.clickValue));
+        this.clickValueListeners.forEach((listener) => listener(this.clickValue));
     }
 }
 

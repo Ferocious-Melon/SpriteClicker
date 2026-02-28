@@ -5,7 +5,7 @@ import { initRewards } from "./rewards.js";
 
 window.addEventListener("load", () => {
 
-  const CPS_TIME_INTERVAL = 10; //Interval clicks per second are added to the balance
+  const UPDATE_TIME_INTERVAL = 1000/60; //updates at 60 frames per second
 
   const balElement = document.getElementById("bal");          //element storing text balance
   const clickCount = document.getElementById("click");        //element storing click amount
@@ -31,12 +31,30 @@ window.addEventListener("load", () => {
     star.addEventListener("load", () => {
       star.style["left"] = `${x}px`;
       star.style["top"] = `${y}px`;
-      classList.add("animate-star");
-    })
-    star.addEventListener("animationend",()=>{
-      this.remove();
+      star.classList.add("animate-star");
+      star.addEventListener("animationend",()=>{
+        star.remove();
+      });
     })
     return star;
+  }
+
+  let friction = 0.95;//how much rotation slows each tick
+  let clickForce = 1.5;
+  let rotspeed = 0; // degrees per second;
+  const maxSpeed = 600;
+  let currAngle = 0;
+  let ishovered = false;
+
+  function animateClicker() {
+      currAngle += rotspeed/1000 * UPDATE_TIME_INTERVAL;
+      rotspeed = Math.floor(rotspeed*friction);
+      gameState.setClickValMult(Math.ceil((rotspeed+50)/(maxSpeed/4)));
+      clicker.style["transform"] = `rotate(${currAngle}deg)`;
+  }
+
+  function speedUpClicker() {
+    rotspeed = Math.min(600, (rotspeed)*clickForce + 60);
   }
 
   initRewards();
@@ -67,6 +85,7 @@ window.addEventListener("load", () => {
     clicker.classList.add("animated");
     starElement.appendChild(createStar(e.clientX, e.clientY));
     gameState.addClick();
+    speedUpClicker();
   });
 
   // //End animation events to remove the animation classes
@@ -74,8 +93,12 @@ window.addEventListener("load", () => {
     clicker.classList.remove("animated");
   });
 
+  clicker.addEventListener("mouseenter", () => { ishovered = true; });
+  clicker.addEventListener("mouseleave", () => { ishovered = false; });
+
   //Set up an interval to add the appropriate amount of money based on the current CPS every 100ms
-  const CPSInterval = setInterval(() => {
-    gameState.addBal(gameState.cps * (CPS_TIME_INTERVAL / 1000));
-  }, CPS_TIME_INTERVAL);
+  const updateInterval = setInterval(() => {
+    animateClicker();
+    gameState.addBal(gameState.cps * (UPDATE_TIME_INTERVAL / 1000));
+  }, UPDATE_TIME_INTERVAL);
 });

@@ -65,6 +65,8 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+
+  transform-origin: center; /* Default, but good to be explicit */
 }
 
 #click-button:hover {
@@ -77,12 +79,14 @@ body {
 }
 
 .star {
+  display:none;
   position: fixed;
   width: 30px;
   pointer-events: none;
 }
 
 .animate-star {
+  display: block;
   animation: starPop 0.6s ease-out forwards;
 }
 
@@ -94,7 +98,7 @@ body {
 
   100% {
     opacity: 0;
-    transform: translateY(-100px) scale(1.4);
+    transform: translateY(-150px) scale(1.4);
   }
 }
 
