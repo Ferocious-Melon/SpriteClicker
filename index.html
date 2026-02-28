@@ -1,43 +1,82 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <script type="module" src="scripts/game.js"></script>
-    <title>Clicker Game</title>
-  </head>
 
-  <body>
-    <div class="game-container">
-      <div class="click-area">
-        <h1>Soot Sprites Clicker</h1>
-        <p id="balance"><span id="bal"> 0 </span> Sprites Collected </p>
-        <p id="clickCount"><span id="click"> 0 </span>  Clicks Made </p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <script type="module" src="scripts/game.js"></script>
+  <title>Clicker Game</title>
+</head>
+
+<body>
+  <div class="game-container">
+    <div class="click-area">
+      <h1>Soot Sprites Clicker</h1>
+      <p id="balance"><span id="bal"> 0 </span> Sprites Collected</p>
+      <p id="clickCount"><span id="click"> 0 </span> Clicks Made</p>
+      <div id="click-button"></div>
+      <div id="stars"></div>
+    </div>
+
+    <div class="upgrades">
+      <h1>Upgrades</h1>
+      <div id="upgrades-container"></div>
+      <div id="mini-upgrades"></div>
+    </div>
+
+    <div class="scoreboard" id="scoreboard">
+      <h1>Characters</h1>
+      <div id="scoreboard-container">
         <p>CPS: <span id="cps">0</span></p>
         <p>Click Value: <span id="click-val"> 1 </span></p>
-        <!-- <img id="sootSprite" src="../assets/images/sootSpriteIcon.png" alt="Soot sprite"> -->
-        <div id="click-button"></div>
-        <div id="stars"></div>
-      </div>
-
-      <div class="upgrades">
-        <h1>Upgrades</h1>
-        <div id="upgrades-container"></div>
-      </div>
-
-      <div class="scoreboard" id="scoreboard">
-        <h1>Scoreboard</h1>
-        <div id= "scoreboard-container">
-          <div id="ponyo-upgrades" class="scoreboardRow"></div>
-          <div id="totoro-upgrades" class="scoreboardRow"></div>
-          <div id="haku-upgrades" class="scoreboardRow"></div>
-        </div>
-      </div>
-      <div class="rewards-area">
-        <h1>Rewards</h1>
-        <div class="achievements"></div>
+        <div id="ponyo-upgrades" class="scoreboardRow"></div>
+        <div id="totoro-upgrades" class="scoreboardRow"></div>
+        <div id="haku-upgrades" class="scoreboardRow"></div>
       </div>
     </div>
-  </body>
+
+    <div class="rewards-area">
+      <h1>Rewards</h1>
+      <div class="achievements"></div>
+    </div>
+
+    <div id="help-window">
+      <div id="help-container">
+        <div id="close-button">
+          <img src="assets/vectors/x-button.svg" width="50px" height="50px" />
+        </div>
+        <h2>How to Play</h2>
+        <p>
+          Welcome to Soot Sprite Clicker! Collect as many sprites as you can
+          (until you get bored) and unlock all your favourite Ghibli
+          characters, through upgrades and achievements.
+        </p>
+        <h2>Earning Sprites</h2>
+        <h3>The Sprites</h3>
+        <p>
+          Click the soot sprites to collect more, the faster they spin the
+          more <b>Click Value</b> you'll earn.
+        </p>
+        <h3>Upgrades</h3>
+        <p>
+          Buy <b>characters</b> to increase <b>CPS</b>. This is your "clicks per
+          second". It represents the amount of sprites you earn passively
+          every second.
+        </p>
+        <p>You can also buy <b>upgrades</b> which enhance your <b>click value</b> based on the characters you own.</p>
+        <h2>Achievements</h2>
+        <p>
+          The more clicks you get and the more sprites you collect, the more
+          achievements you unlock. These are just for fun, but they do come
+          with some pretty cool titles and icons to show off your progress.
+        </p>
+        <p><i>Next Click Goal: <span id="next-click-goal">10</span></i></p>
+        <p><i>Next Sprite Goal: <span id="next-sprite-goal">10</i></p>
+      </div>
+    </div>
+  </div>
+  <div id="help-button">HELP</div>
+</body>
+
 </html>

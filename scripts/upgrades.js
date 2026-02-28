@@ -4,7 +4,7 @@ import gameState from "./gameState.js";
 /**
  * Upgrade class that represents a purchasable upgrade in the game.
  */
-class upgrade {
+class character {
     constructor() {
         this.owned = 0; //amount of upgrade owned
         this.cps;
@@ -95,8 +95,10 @@ class upgrade {
 
 }
 
+
+
 //Basic upgrade
-export class tapper extends upgrade {
+export class tapper extends character {
     constructor() {
         super();
         this.basePrice = 10;
@@ -112,7 +114,7 @@ export class tapper extends upgrade {
 }
 
 //Slightly fancier upgrade oooooo
-export class worker extends upgrade {
+export class worker extends character {
     constructor() {
         super();
         this.basePrice = 100;
@@ -127,7 +129,7 @@ export class worker extends upgrade {
     }
 }
 
-export class factory extends upgrade {
+export class factory extends character {
     constructor() {
         super();
         this.basePrice = 10000;
@@ -142,9 +144,112 @@ export class factory extends upgrade {
     }
 }
 
-let upgradeElement, scoreboardElement;
+class upgrade {
+    constructor(name, price, img, description) {
+        this.name = name;
+        this.price = price;
+        this.bought = false;
+        this.visible = true;
+        this.imgSrc = img;
+        this.description = description;
+        this.effect;
+    }
 
-const upgrades = [new tapper(), new worker(), new factory()];
+    toHTML() {
+        const container = document.createElement("div");
+        container.classList.add("mini-upgrade");
+
+        const icon = new Image();
+        icon.src = this.imgSrc;
+
+        const blurb = document.createElement("div");
+        blurb.classList.add("upgrade-blurb");
+
+        blurb.append(document.createElement("h3"));
+        blurb.lastChild.textContent = this.name;
+        blurb.lastChild.classList.add("blurb-name");
+        blurb.append(document.createElement("p"));
+        blurb.lastChild.textContent = this.description;
+        blurb.appendChild(document.createElement("p"));
+        blurb.lastChild.textContent = `Price: ${this.price}`;
+
+        container.appendChild(icon);
+        container.appendChild(blurb);
+
+        container.addEventListener("mousemove",(event) => {
+            console.log("happened");
+            blurb.style["display"] = "block";
+            blurb.style["left"] = `${event.clientX}px`;
+            blurb.style["right"] = `${event.clientY}px`;
+        });
+        container.addEventListener("mouseleave",(event) => {blurb.style={}})
+
+        container.addEventListener("click", (event) => {
+            if(gameState.balance > this.price && !this.bought){
+                gameState.removeBal(this.price);
+                container.classList.add("bought");
+                this.bought = true;
+                this.effect();
+            }
+        })
+
+        gameState.addBalanceListener((bal) =>{
+            if (bal < this.price){
+                container.classList.add("unafordable");
+            }
+            else{
+                container.classList.remove("unafordable");
+            }
+        })
+
+        return container;
+    }
+}
+
+class rawIncrease extends upgrade {
+    constructor(name, price, img, description, amount){
+        super(name, price, img, description);
+        this.increase = amount;
+    }
+    effect(){
+        gameState.addModifier((cps) => {
+            return cps + this.increase;
+        });
+    }
+}
+
+class percentOfIncrease extends upgrade {
+    constructor(name, price, img, description, reference, percent){
+        super(name, price, img, description);
+        this.reference = reference;
+        this.percent = percent;
+    }
+    effect() {
+        gameState.addModifier((cps) => {
+            let increment
+            if  (this.reference == gameState)
+                increment = gameState.cps*this.percent;
+            else
+                increment = this.reference.totalCps*this.percent;
+            return cps + increment;
+        })
+    }
+}
+
+const poyo = new tapper();
+const totoro = new worker();
+const haku = new factory();
+
+
+const basicUpgrade = new rawIncrease("Stronger Sprites",500,"assets/images/star1.png","Your sprites are nimbler and draw other sprites to them. Gain 10 sprites per click.",9);
+const firstPercent = new percentOfIncrease("Poyo's Assistance",1000,"assets/images/star2.png","Poyo! Your poyos assist you in collecting sprites. Gain 5% of their total cps as click value",poyo, 0.05);
+const secondPercent = new percentOfIncrease("Haku's Presence", 20000,"assets/images/star3.png","Haku's presence increases the efficiency of all cps sources. Gain +10% total cps as click value",gameState, 0.1);
+
+
+const upgrades = [poyo, totoro, haku];
+const miniupgrades = [basicUpgrade, firstPercent, secondPercent];
+
+let upgradeElement, miniUpgradeElement;
 
 function updateCPS() {
     let runningCPS = 0;
@@ -168,12 +273,12 @@ function upgradesToHTML() {
     return container;
 }
 
-function upgradesToCanvas() {
+function miniUpgradesToHTML(){
     const container = document.createElement("div");
-    container.id = "upgrade-canvases";
+    container.id="mini-upgrade-list";
 
-    for (let u of upgrades) {
-        container.appendChild(u.toCanvas());
+    for (let u of miniupgrades) {
+        container.appendChild(u.toHTML())
     }
 
     return container;
@@ -216,9 +321,15 @@ function updateUpgrades() {
     upgradeElement.appendChild(upgradesToHTML());
 }
 
-export function setUp(ue, se) {
+function updateMiniUpgrades() {
+    miniUpgradeElement.innerHTML = "";
+    miniUpgradeElement.appendChild(miniUpgradesToHTML());
+}
+
+export function setUp(ue, me) {
     upgradeElement = ue;
-    scoreboardElement = se;
+    miniUpgradeElement = me;
 
     updateUpgrades();
+    updateMiniUpgrades();
 }

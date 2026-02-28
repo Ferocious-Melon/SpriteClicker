@@ -6,6 +6,8 @@ class GameState {
         this.clickValMult =  1;
         this.cps = 0;
 
+        this.modifiers = [];
+
         this.balListeners = [];
         this.cpsListeners = [];
         this.clickListeners = [];
@@ -13,7 +15,11 @@ class GameState {
     }
 
     get clickValue() {
-        return this.baseClickValue*this.clickValMult;
+        let runningVal = this.baseClickValue;
+        for(let f of this.modifiers){
+            runningVal = f(runningVal);
+        }
+        return runningVal;
     }
 
     set clickValue(value) {
@@ -34,7 +40,7 @@ class GameState {
     //Adds the value of a click to the balance
     addClick() {
         this.clicks++;
-        this.addBal(this.clickValue);
+        this.addBal(this.clickValue*this.clickValMult);
         this.notifyClickListeners();
 
         console.log(this.clicks);
@@ -50,6 +56,11 @@ class GameState {
     removeBal (amount) {
         this.balance -= amount;
         this.notifyBalanceListeners();
+    }
+
+    addModifier(func){
+        this.modifiers.push(func);
+        console.log(this.modifiers);
     }
 
     //------------------Listener logic begins below ------------------------

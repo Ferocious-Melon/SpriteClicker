@@ -2,7 +2,7 @@ import gameState from "./gameState.js";
 
 //Starting goal for unlocking the first achievement
 let clickGoal = 25;
-let spriteGoal = 5;
+let spriteGoal = 100;
 
 //Achievement icons
 const images = [
@@ -25,8 +25,7 @@ const images = [
  * Reveals a banner and achievement when the user reaches a certain goal
  */
 export function initRewards() {
-
-  // if (document.getElementById("rewards-banner")) return;
+  if (document.getElementById("rewards-banner")) return;
 
   //creates a banner element
   const banner = document.createElement("div");
@@ -59,10 +58,10 @@ export function initRewards() {
   const achievementsContainer = document.querySelector(".achievements");
 
   /*
-  * Displays a new achievement in the rewards panel
-  * @param {string} message - Text to display
-  * @param {number} goalReached - The goal value achieved
-  */
+   * Displays a new achievement in the rewards panel
+   * @param {string} message - Text to display
+   * @param {number} goalReached - The goal value achieved
+   */
   function addAchievement(goalReached, type) {
     const randIndex = Math.floor(Math.random() * images.length);
     const randImg = images[randIndex];
@@ -91,10 +90,11 @@ export function initRewards() {
   gameState.addClickListener((clicks) => {
     if (clicks >= clickGoal) {
       showBanner(`Reached ${clickGoal} clicks!`);
-      addAchievement(clickGoal, "clicks")
+      addAchievement(clickGoal, "clicks");
 
       clickGoal *= 2;
-      console.log(`next goal: ${clickGoal}`)
+      console.log(`next goal: ${clickGoal}`);
+      updateGoalDisplay();
     }
   });
 
@@ -104,7 +104,19 @@ export function initRewards() {
       addAchievement(spriteGoal, "sprites");
 
       spriteGoal *= 2;
-      console.log(`next goal: ${spriteGoal}`)
+      console.log(`next goal: ${spriteGoal}`);
+      updateGoalDisplay();
     }
   });
+}
+
+/**
+   * Displays the next goal for the user in the help menu
+   */
+export function updateGoalDisplay() {
+  const nextClickGoalElement = document.getElementById("next-click-goal");
+  const nextSpriteGoalElement = document.getElementById("next-sprite-goal");
+  
+  nextClickGoalElement.textContent = clickGoal;
+  nextSpriteGoalElement.textContent = spriteGoal;
 }

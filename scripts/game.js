@@ -1,6 +1,7 @@
 import * as Upgrades from "./upgrades.js";
 import gameState from "./gameState.js";
 import { initRewards } from "./rewards.js";
+import { updateGoalDisplay } from "./rewards.js";
 
 
 window.addEventListener("load", () => {
@@ -13,8 +14,11 @@ window.addEventListener("load", () => {
   const clickValElement = document.getElementById("click-val"); //element w/ value of click
   const clicker = document.getElementById("click-button");    //element with le button in it
   const upgradesElement = document.getElementById("upgrades-container"); //element which will store the upgrades for purchase
-  const scoreboardElement = document.getElementById("scoreboard-container");
+  const miniUpgradesElement = document.getElementById("mini-upgrades");
   const starElement = document.getElementById("stars");
+  const helpButton = document.getElementById("help-button");
+  const helpWindow = document.getElementById("help-window");
+  const closeHelp = document.getElementById("close-button");
 
   const starSrcs = [
     "assets/images/star1.png"
@@ -41,24 +45,26 @@ window.addEventListener("load", () => {
 
   let friction = 0.95;//how much rotation slows each tick
   let clickForce = 1.5;
-  let rotspeed = 0; // degrees per second;
+  let rotspeed = 1; // degrees per second;
   const maxSpeed = 600;
   let currAngle = 0;
   let ishovered = false;
 
   function animateClicker() {
       currAngle += rotspeed/1000 * UPDATE_TIME_INTERVAL;
-      rotspeed = Math.floor(rotspeed*friction);
-      gameState.setClickValMult(Math.ceil((rotspeed+50)/(maxSpeed/4)));
+      rotspeed = Math.ceil(rotspeed*friction);
+      gameState.setClickValMult(Math.ceil((rotspeed+50)/(maxSpeed/5)));
       clicker.style["transform"] = `rotate(${currAngle}deg)`;
   }
 
   function speedUpClicker() {
-    rotspeed = Math.min(600, (rotspeed)*clickForce + 60);
+    rotspeed = Math.min(maxSpeed, (rotspeed)*clickForce + 60);
   }
 
   initRewards();
-  Upgrades.setUp(upgradesElement,scoreboardElement);
+  updateGoalDisplay();
+
+  Upgrades.setUp(upgradesElement,miniUpgradesElement);
 
   //add a listener to update the balance element whenever it changes
   gameState.addBalanceListener((newbal) => {
@@ -76,7 +82,7 @@ window.addEventListener("load", () => {
   });
 
   gameState.addClickValueListener((clickVal) => {
-    clickValElement.textContent = clickVal;
+    clickValElement.textContent = `${gameState.clickValue} x ${gameState.clickValMult}`;
   })
 
   // //Actions to be done on click
@@ -95,6 +101,14 @@ window.addEventListener("load", () => {
 
   clicker.addEventListener("mouseenter", () => { ishovered = true; });
   clicker.addEventListener("mouseleave", () => { ishovered = false; });
+
+  closeHelp.addEventListener("click", () => {
+    helpWindow.style["display"] = "none";
+  })
+
+  helpButton.addEventListener("click", () => {
+    helpWindow.style["display"] = "flex";
+  })
 
   //Set up an interval to add the appropriate amount of money based on the current CPS every 100ms
   const updateInterval = setInterval(() => {

@@ -72,6 +72,7 @@ body {
 #click-button:hover {
   transform: scale(1.05);
   filter: drop-shadow(0 0 5px #8e733496) drop-shadow(0 0 10px #e7ff6d39);
+  cursor: pointer;
 }
 
 #stars {
@@ -108,6 +109,8 @@ body {
 
 #upgrades-container {
   overflow-y: auto;
+  height: 70%;
+  border-bottom: 2px solid white;
 }
 
 .upgrade {
@@ -118,6 +121,62 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#mini-upgrades {
+  height: 30%;
+  margin-top: 15px;
+}
+
+#mini-upgrade-list{
+  display: flex;
+  width: 100%;
+  gap: 5px;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.mini-upgrade {
+  width: 50px;
+  height: 50px;
+  border: 2px solid white;
+}
+
+.mini-upgrade.unafordable {
+  border: 2px solid grey;
+}
+
+.mini-upgrade.bought {
+  border: 2px solid gold;
+}
+
+.mini-upgrade img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.mini-upgrade.unafordable img {
+  opacity: 0.5;
+}
+
+.mini-upgrade.bought img {
+  opacity: 1;
+}
+
+.upgrade-blurb {
+  background-color: rgba(25, 30, 25, 0.8);
+  display:none;
+  position:fixed;
+  width: 300px;
+  height: auto;
+  padding: 10px;
+  border-radius: 2px;
+  color: white;
+}
+
+.blurb-name {
+  border-bottom: 1px solid white;
 }
 
 .icon-container {
@@ -137,6 +196,17 @@ body {
   margin-right: 15px;
 }
 
+
+@media (max-width: 769) {
+  .upgrade-text h2 {
+    font-size: small;
+  }
+
+  .upgrade-text p {
+    font-size:smaller; 
+  }  
+}
+
 .upgrade-canvas {
   background-color: white;
   margin: 0 1px;
@@ -148,10 +218,6 @@ body {
   padding: 5px 10px;
   cursor: pointer;
   font-size: large;
-}
-
-#scoreboard {
-  gap: 20px;
 }
 
 #scoreboard-container{
@@ -278,6 +344,47 @@ body {
 .achievement.show {
   opacity: 1;
   transform: translateY(0);
+}
+
+#help-button {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 5px 15px;
+  border: 2px solid white;
+}
+
+#help-window {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index:1000;
+}
+
+#help-container{
+  width: 70%;
+  padding: 30px;
+  background-color: rgba(20, 20, 20, 1.0);
+  border-radius: 20px;
+  line-height: 1.6;
+}
+
+#close-button {
+  display:flex;
+  justify-content: right;
+  
+}
+
+#close-button:hover {
+  cursor: pointer;
+}
+
+#close-button img {
+  filter: invert(100%);
 }
 
 @keyframes jump {
